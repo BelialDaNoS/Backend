@@ -38,7 +38,7 @@ const usuario1 = new Usuario("Lautaro", "Gazzo", [], []);
 usuario1.addBook("Harry Potter", "José José");
 usuario1.addMascota("Mia")
 
-//Declaración y ejecución de funciones ↴↴↴↴↴↴↴↴↴
+// Declaración y ejecución de funciones ↴↴↴↴↴↴↴↴↴
 
 usuario1.getFullName();
 
