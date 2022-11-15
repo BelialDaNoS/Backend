@@ -1,32 +1,32 @@
-const moment = require("moment");
-const http = require("http");
-const express = require("express");
-var log = (p) => console.log(p);
-moment.locale("es-mx");
+const express = require('express');
+const Contenedor = require('./contenedor.js');
 
 const app = express();
 
-const PORT = 8080;
-
-var visitas = 0;
+const PORT = 8080
 
 const server = app.listen(PORT, () => {
-  log(`Servidor escuchando en el puerto ${server.address().port}`);
-});
+    console.log(`Servidor prendido escuchando el puerto: ${PORT}`)
+})
 
-app.get("/", (req, res) => {
-  res.send(`<h1>Bienvenidos al servidor de express</h1>`);
-});
+const contenedor = new Contenedor('./productos.txt')
 
-app.get("/visitas", (req, res) => {
-  res.send(`La cantidad de visitas es ${visitas + 1}`);
-  visitas++;
-});
+const getRandom = async () => {
+    let lista = await contenedor.getAll()
+    return lista[Math.floor(Math.random() * lista.length)]
+}
 
-app.get("/fyh", (req, res) => {
-  res.send({ fyh: `${moment().format("DD [De] MMMM [del] YYYY, h:mm A")}` });
-});
 
-server.on("error", (err) => {
-  console.error(`=========> ERROR: ${err}`);
-});
+app.get('/', (req, res) => {
+    res.send("<h1>Coderhouse - Desafío n° 3</h1>")
+})
+
+app.get('/productos', async (req, res) => {
+    res.send(await contenedor.getAll())
+})
+
+app.get('/productoRandom', async (req, res) => {
+    res.send(await getRandom())
+})
+
+server.on('error', (err) => {console.log(`====> ERROR: ${err}`)})
